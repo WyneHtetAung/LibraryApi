@@ -1,4 +1,4 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var bcrypt = require("bcryptjs");
 
@@ -15,6 +15,10 @@ var UserSchema = new Schema({
   password: {
     type: String,
     required: true,
+  },
+  role: {
+    type: String,
+    require: true,
   },
   date: {
     type: Date,

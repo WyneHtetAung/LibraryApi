@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
+const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth.check");
 
@@ -14,9 +14,9 @@ router.get("/", auth, (req, res) => {
     });
   } catch (err) {
     res.status(200).json({
-        message: "user route is running",
-        err: err
-      });
+      message: "user route is running",
+      err: err,
+    });
   }
 });
 

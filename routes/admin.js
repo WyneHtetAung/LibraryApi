@@ -1,22 +1,18 @@
-var express = require("express")
-var router = express.Router()
-var Admin = require("../models/admin")
-var jwt = require("jsonwebtoken")
+const express = require("express")
+const router = express.Router()
+const Admin = require("../models/Admin")
+const jwt = require("jsonwebtoken")
 require("dotenv").config()
-router.get("/", function (req, res) {
+router.get("/", (req, res) => {
   res.status(200).json({
     message: "Library management system",
   })
 })
 
 // admin account register
-router.post("/register", function (req, res) {
-  var admin = new Admin()
-  admin.name = req.body.name
-  admin.email = req.body.email
-  admin.password = req.body.password
-  admin.role = req.body.role
-  admin.save(function (err, rtn) {
+router.post("/register", async (req, res) => {
+  let admin = new Admin(req.body)
+  await admin.save((err, rtn) => {
     if (err) {
       res.status(500).json({
         message: "Internal server error",
@@ -31,8 +27,8 @@ router.post("/register", function (req, res) {
 })
 
 // duplicate email
-router.post("/duplicateEmail", function (req, res) {
-  Admin.findOne({ email: req.body.email }, function (err, rtn) {
+router.post("/duplicateEmail", async (req, res) => {
+  await Admin.findOne({ email: req.body.email }, (err, rtn) => {
     if (err) {
       res.status(500).json({
         message: "Internal server error",
@@ -47,8 +43,8 @@ router.post("/duplicateEmail", function (req, res) {
 })
 
 // admin login
-router.post("/login", function (req, res) {
-  Admin.findOne({ email: req.body.email }, function (err, rtn) {
+router.post("/login", async (req, res) => {
+  Admin.findOne({ email: req.body.email }, (err, rtn) => {
     if (err) {
       res.status(500).json({
         message: "Internal server error",
@@ -56,7 +52,7 @@ router.post("/login", function (req, res) {
       })
     }
     if (rtn != null && Admin.compare(req.body.password, rtn.password)) {
-      var token = jwt.sign(
+      let token = jwt.sign(
         {
           id: rtn._id,
           name: rtn.name,

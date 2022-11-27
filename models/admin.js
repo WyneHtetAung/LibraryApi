@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-var Schema = mongoose.Schema;
-var bcrypt = require("bcryptjs");
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
+const bcrypt = require("bcryptjs")
 
-var UserSchema = new Schema({
+const UserSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -24,15 +24,15 @@ var UserSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
-});
+})
 
 UserSchema.pre("save", function (next) {
-  this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8), null);
-  next();
-});
+  this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8), null)
+  next()
+})
 
 UserSchema.statics.compare = function (cleartext, encrypted) {
-  return bcrypt.compareSync(cleartext, encrypted);
-};
+  return bcrypt.compareSync(cleartext, encrypted)
+}
 
-module.exports = mongoose.model("admin", UserSchema);
+module.exports = mongoose.model("admin", UserSchema)

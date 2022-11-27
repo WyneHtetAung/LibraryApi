@@ -5,9 +5,28 @@ const User = require("../models/User")
 const Book = require("../models/Admin.book")
 
 // connect to admin dashboard
-router.get("/admin_dashboard", auth, (req, res) => {
-  res.status(200).json({
-    message: "Admin dashboard connect",
+router.get("/admin_dashboard", auth, async (req, res) => {
+  Book.find({}, (err, rtn) => {
+    if (err) {
+      res.status(500).json({
+        messsage: "Internal server error",
+        error: err,
+      })
+    }
+    User.find({}, (err2, rtn2) => {
+      if (err2) {
+        res.status(500).json({
+          messsage: "Internal server error",
+          error: err2,
+        })
+      } else {
+        res.status(202).json({
+          message: "book data and user data",
+        })
+        console.log("book data:", rtn)
+        console.log("user data:", rtn2)
+      }
+    })
   })
 })
 

@@ -11,6 +11,8 @@ router.get("/admin_dashboard", auth, async (req, res) => {
     var user = await User.find({})
     res.status(202).json({
       message: "book data and user data",
+      book: book,
+      user: user,
     })
   } catch (error) {
     res.status(500).json({
@@ -18,8 +20,6 @@ router.get("/admin_dashboard", auth, async (req, res) => {
       error: error,
     })
   }
-  console.log("book data:", book)
-  console.log("user data:", user)
 })
 
 // user register

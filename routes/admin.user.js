@@ -5,7 +5,7 @@ const User = require("../models/User")
 const Book = require("../models/Admin.book")
 
 // connect to admin dashboard
-router.get("/admin_dashboard", auth, async (req, res) => {
+router.get("/admin-dashboard", auth, async (req, res) => {
   try {
     var book = await Book.find({})
     var user = await User.find({})
@@ -17,8 +17,9 @@ router.get("/admin_dashboard", auth, async (req, res) => {
   } catch (error) {
     res.status(500).json({
       messsage: "Internal server error",
-      error: error,
+      error: error.toString(),
     })
+    console.log(error)
   }
 })
 
@@ -33,8 +34,9 @@ router.post("/user-register", auth, async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",
-      error: error,
+      error: error.toString(),
     })
+    console.log(error)
   }
 })
 
@@ -48,8 +50,30 @@ router.post("/book-register", auth, async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",
-      error: error,
+      error: error.toString(),
     })
+    console.log(error)
+  }
+})
+
+router.get("/user-delete/:id", auth, async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id)
+    if (user) {
+      res.status(200).json({
+        message: "User account is delete",
+      })
+    } else {
+      res.status(404).json({
+        message: "User account is not found",
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.toString(),
+    })
+    console.log(error)
   }
 })
 

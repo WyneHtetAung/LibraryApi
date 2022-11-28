@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const auth = require("../middleware/auth.check")
 const Admin = require("../models/Admin")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -20,21 +21,53 @@ router.post("/register", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",
+      error: error.toString(),
     })
+    console.log(error)
   }
 })
 
 // duplicate email
 router.post("/duplicateEmail", async (req, res) => {
   try {
-    await Admin.findOne({ email: req.body.email })
-    res.status(200).json({
-      status: rtn != null ? true : false,
-    })
+    const duplicate = await Admin.findOne({ email: req.body.email })
+    if (duplicate) {
+      res.status(409).json({
+        message: "email is exit",
+      })
+    } else {
+      res.status(202).json({
+        message: "email is not exit",
+      })
+    }
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",
+      error: error.toString(),
     })
+    console.log(error)
+  }
+})
+
+// duplicate name
+router.post("/duplicateName", async (req, res) => {
+  try {
+    const duplicateName = await Admin.findOne({ name: req.body.name })
+    if (duplicateName) {
+      res.status(409).json({
+        message: "name is exit",
+      })
+    } else {
+      res.status(202).json({
+        message: "name is not exit",
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.toString(),
+    })
+    console.log(error)
   }
 })
 
@@ -69,7 +102,56 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",
+      error: error.toString(),
     })
+    console.log(error)
+  }
+})
+
+router.get("/admin-delete/:id", auth, async (req, res) => {
+  try {
+    const admin = await Admin.findByIdAndDelete(req.params.id)
+    if (admin) {
+      res.status(200).json({
+        message: "admin account is delete",
+      })
+    } else {
+      res.status(404).json({
+        message: "admin account is not found",
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.toString(),
+    })
+    console.log(error)
+  }
+})
+
+router.patch("/admin-update/:id", auth, async (req, res) => {
+  try {
+    var update = {
+      name: req.body.name,
+      email: req.body.email,
+      role: req.body.role,
+    }
+    const adminUpdate = await Admin.findByIdAndUpdate(req.params.id, {
+      $set: update,
+    })
+    const adminUpdated = await Admin.findById(req.params.id)
+    if (adminUpdate) {
+      res.status(200).json({
+        message: "admin account data is updated",
+        adminUpdated: adminUpdated,
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Inernal server error",
+      error: error.toString(),
+    })
+    console.log(error)
   }
 })
 

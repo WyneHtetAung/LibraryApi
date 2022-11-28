@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const app = express()
 const bodyParser = require("body-parser")
 const admin_route = require("./routes/admin")
-const admin_index_route = require("./routes/admin.index")
+const admin_index_route = require("./routes/admin.user")
 const index_route = require("./routes/index")
 const user_route = require("./routes/user")
 

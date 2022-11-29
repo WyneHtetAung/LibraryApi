@@ -131,13 +131,8 @@ router.get("/admin-delete/:id", auth, async (req, res) => {
 
 router.patch("/admin-update/:id", auth, async (req, res) => {
   try {
-    var update = {
-      name: req.body.name,
-      email: req.body.email,
-      role: req.body.role,
-    }
     const adminUpdate = await Admin.findByIdAndUpdate(req.params.id, {
-      $set: update,
+      $set: req.body,
     })
     const adminUpdated = await Admin.findById(req.params.id)
     if (adminUpdate) {

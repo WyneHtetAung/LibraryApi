@@ -77,4 +77,25 @@ router.get("/user-delete/:id", auth, async (req, res) => {
   }
 })
 
+router.patch("/user-update/:id", auth, async (req, res) => {
+  try {
+    const userUpdate = await User.findByIdAndUpdate(req.params.id, {
+      $set: req.body,
+    })
+    const userUpdated = await User.findById(req.params.id)
+    if (userUpdate) {
+      res.status(200).json({
+        message: "user data is updated",
+        updateData: userUpdated,
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.toString(),
+    })
+    console.log(error)
+  }
+})
+
 module.exports = router

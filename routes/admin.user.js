@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 const auth = require("../middleware/auth.check")
 const User = require("../models/User")
-const Book = require("../models/Admin.book")
+const Book = require("../models/admin.book.model")
 
 // connect to admin dashboard
 router.get("/admin-dashboard", auth, async (req, res) => {

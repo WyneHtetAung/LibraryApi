@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const auth = require("../middleware/auth.check")
-const Admin = require("../models/Admin")
+const Admin = require("../models/admin.model")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 router.get("/", (req, res) => {

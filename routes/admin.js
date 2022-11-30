@@ -10,6 +10,21 @@ router.get("/", (req, res) => {
   })
 })
 
+router.get("/admin-management", auth, async (req, res) => {
+  try {
+    var adminData = await Admin.find({})
+    res.status(202).json({
+      message: "Admin data for admin management",
+      adminData: adminData,
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.toString(),
+    })
+  }
+})
+
 // admin account register
 router.post("/register", async (req, res) => {
   try {

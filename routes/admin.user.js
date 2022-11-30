@@ -23,6 +23,21 @@ router.get("/admin-dashboard", auth, async (req, res) => {
   }
 })
 
+router.get("/user-management", auth, async (req, res) => {
+  try {
+    var userDate = await User.find({})
+    res.status(202).json({
+      message: "User data for user management",
+      userDate: userDate,
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.toString(),
+    })
+  }
+})
+
 // user register
 router.post("/user-register", auth, async (req, res) => {
   try {

@@ -91,6 +91,7 @@ router.post("/login", async (req, res) => {
   try {
     const admin = await Admin.findOne({ email: req.body.email })
     console.log(admin)
+    console.log(req.body)
     if (
       admin &&
       admin != null &&

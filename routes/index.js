@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const User = require("../models/User")
+const Book = require("../models/admin.book.model")
 const jwt = require("jsonwebtoken")
 
 require("dotenv").config()
@@ -17,7 +18,7 @@ router.post("/register", async (req, res) => {
   } catch (err) {
     res.status(500).json({
       message: "something went wrong",
-      err: err,
+      err: err.toString(),
     })
   }
 })
@@ -41,7 +42,7 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     res.status(500).json({
       message: "something went wrong",
-      err: err,
+      err: err.toString(),
     })
   }
 })
@@ -56,9 +57,41 @@ router.post("/duemailcheck", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "something went wrong",
-      err: error,
+      err: error.toString(),
     })
   }
+})
+
+router.get("/booklist", async(req, res) => {
+  try {
+  const bookData = await Book.find()
+  res.status(200).json({
+    message: "booklist",
+    data: bookData,
+  })
+  } catch (error) {
+    res.status(500).json({
+      message: "something went wrong",
+      err: error.toString(),
+    })
+  }
+})
+
+router.get("/bookdetail/:id", async(req, res) => {
+  try {
+    const bookId = req.params.id
+  const bookData = await Book.findById(bookId)
+  res.status(200).json({
+    message: "bookdetail",
+    data: bookData,
+  })
+  } catch (error) {
+    res.status(500).json({
+      message: "something went wrong",
+      err: error.toString(),
+    })
+  }
+
 })
 
 module.exports = router

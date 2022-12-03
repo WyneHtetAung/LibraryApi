@@ -10,25 +10,40 @@ let BookSchema = new Schema({
     type: String,
     require: true,
   },
-  date: {
+  ReleasedDate: {
     type: String,
     require: true,
   },
   bookReview: {
+    type: Number
+  },
+  category: {
     type: String,
     require: true,
   },
-  type: {
+  content: {
     type: String,
-    require: true,
+    require: true
   },
-  corverImage: {
+  requests: [
+
+  ],
+  isAvailable: {
+    type: Boolean,
+    dafault: true
+  },
+  currentBorrower: {
+    type: Schema.Types.ObjectId,
+    ref: "user"
+  },
+  borrowDate: {
+    type: Date
+  },
+  coverImage: {
     type: String,
-    require: true,
   },
   bookId: {
     type: String,
-    require: true,
   },
 })
 

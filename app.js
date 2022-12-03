@@ -22,10 +22,11 @@ db.on("connected", () => console.log("Database connected!"))
 
 app.use("/api/admin", admin_route)
 app.use("/api/admin/users", admin_index_route)
-app.use("/api/index", index_route)
+app.use("/api", index_route)
 app.use("/api/user", user_route)
 
 app.use((req, res, next) => {
+  console.log(req.url)
   res.status(200).json({
     message: "app is running....",
   })
